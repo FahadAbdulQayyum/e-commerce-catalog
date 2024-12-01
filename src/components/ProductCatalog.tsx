@@ -1,4 +1,3 @@
-// src/components/ProductCatalog.tsx
 import { defineComponent, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex'; // Use Vuex for state management
 import ProductCard from './ProductCard'; // Import ProductCard component
