@@ -11,6 +11,9 @@ export default defineComponent({
     const store = useStore(); // Use Vuex store to manage state
     const state = reactive({
       searchQuery: '',
+      sortBy: 'price', // Default sorting by price
+      currentPage: 1, // Default to page 1
+      itemsPerPage: 8, // Items per page
     });
 
     // Fetch products when component is mounted
@@ -20,54 +23,111 @@ export default defineComponent({
 
     // Filter products based on search query
     const filteredProducts = computed(() => {
-      return store?.state?.products?.filter((product: any) =>
+      const products = store.state.products.filter((product: any) =>
         product.title.toLowerCase().includes(state.searchQuery.toLowerCase())
       );
+      return sortProducts(products);
     });
+
+    // Sort products by price or rating
+    const sortProducts = (products: any[]) => {
+      if (state.sortBy === 'price') {
+        return products.sort((a, b) => a.price - b.price);
+      } else if (state.sortBy === 'rating') {
+        return products.sort((a, b) => b.rating - a.rating);
+      }
+      return products;
+    };
+
+    // Pagination logic
+    const totalPages = computed(() => Math.ceil(store.state.products.length / state.itemsPerPage));
+    const paginatedProducts = computed(() => {
+      const start = (state.currentPage - 1) * state.itemsPerPage;
+      const end = start + state.itemsPerPage;
+      return filteredProducts.value.slice(start, end);
+    });
+
+    // Change page
+    const changePage = (page: number) => {
+      if (page >= 1 && page <= totalPages.value) {
+        state.currentPage = page;
+      }
+    };
 
     // Check if products are loading
     const isLoading = computed(() => store.state.products.length === 0);
-
-    // Log when component is rendered
-    console.log("ProductCatalog is rendered");
 
     return {
       state,
       filteredProducts,
       isLoading,
+      paginatedProducts,
+      totalPages,
+      changePage,
     };
   },
   render() {
     return (
       <div>
-        {/* Show loading message */}
+        {/* Loading State */}
         {this.isLoading ? (
           <div class="loader mx-auto my-10"></div>
         ) : (
           <>
-            {/* Show input field after loading */}
+            {/* Search Bar */}
             <input
               type="text"
               placeholder="Search products..."
               onInput={(e: Event) => (this.state.searchQuery = (e.target as HTMLInputElement).value)}
               class="w-full p-2 border rounded-md mb-5"
             />
-            {/* Show product cards */}
+
+            {/* Sort Options */}
+            <select
+              onChange={(e: Event) => {
+                this.state.sortBy = (e.target as HTMLSelectElement).value;
+              }}
+              class="mb-4 p-2 border rounded-md"
+            >
+              <option value="price">Sort by Price</option>
+              <option value="rating">Sort by Rating</option>
+            </select>
+
+            {/* Product Cards */}
             <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {this.filteredProducts.map((product: any) => (
+              {this.paginatedProducts.map((product: any) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
+
+            {/* Pagination */}
+            <div class="pagination mt-5">
+              <button
+                onClick={() => this.changePage(this.state.currentPage - 1)}
+                disabled={this.state.currentPage === 1}
+              >
+                Prev
+              </button>
+              <span>{this.state.currentPage} / {this.totalPages}</span>
+              <button
+                onClick={() => this.changePage(this.state.currentPage + 1)}
+                disabled={this.state.currentPage === this.totalPages}
+              >
+                Next
+              </button>
+            </div>
           </>
-        )
-        }
+        )}
       </div>
     );
   },
 });
 
 
-// // src/components/ProductCatalog.tsx
+
+
+
+
 // import { defineComponent, reactive, computed, onMounted } from 'vue';
 // import { useStore } from 'vuex'; // Use Vuex for state management
 // import ProductCard from './ProductCard'; // Import ProductCard component
@@ -110,83 +170,28 @@ export default defineComponent({
 //   render() {
 //     return (
 //       <div>
-//         <input
-//           type="text"
-//           placeholder="Search products..."
-//           onInput={(e: Event) => (this.state.searchQuery = (e.target as HTMLInputElement).value)}
-//           class="w-full p-2 border rounded-md mb-5"
-//         />
-
-//         {/* Show loading message or the products */}
+//         {/* Show loading message */}
 //         {this.isLoading ? (
-//           <div>Loading...</div>
+//           <div class="loader mx-auto my-10"></div>
 //         ) : (
-//           <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-//             {this.filteredProducts.map((product: any) => (
-//               <ProductCard key={product.id} product={product} />
-//             ))}
-//           </div>
-//         )}
+//           <>
+//             {/* Show input field after loading */}
+//             <input
+//               type="text"
+//               placeholder="Search products..."
+//               onInput={(e: Event) => (this.state.searchQuery = (e.target as HTMLInputElement).value)}
+//               class="w-full p-2 border rounded-md mb-5"
+//             />
+//             {/* Show product cards */}
+//             <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+//               {this.filteredProducts.map((product: any) => (
+//                 <ProductCard key={product.id} product={product} />
+//               ))}
+//             </div>
+//           </>
+//         )
+//         }
 //       </div>
 //     );
 //   },
 // });
-
-
-
-// // // src/components/ProductCatalog.tsx
-// // import { defineComponent, reactive, computed, onMounted } from 'vue';
-// // import { useStore } from 'vuex'; // Use Vuex for state management
-// // import ProductCard from './ProductCard'; // Import ProductCard component
-
-// // export default defineComponent({
-// //   name: 'ProductCatalog',
-// //   components: {
-// //     ProductCard, // Register ProductCard component
-// //   },
-// //   setup() {
-// //     const store = useStore(); // Use Vuex store to manage state
-// //     const state = reactive({
-// //       searchQuery: '',
-// //     });
-
-// //     // Fetch products when component is mounted
-// //     onMounted(() => {
-// //       store.dispatch('fetchProducts'); // Dispatch Vuex action to fetch products
-// //     });
-
-// //     // Filter products based on search query
-// //     const filteredProducts = computed(() => {
-// //       return store?.state?.products?.filter((product: any) =>
-// //         product.title.toLowerCase().includes(state.searchQuery.toLowerCase())
-// //       );
-// //     });
-
-// //     // Log when component is rendered
-// //     console.log("ProductCatalog is rendered");
-
-// //     return {
-// //       state,
-// //       filteredProducts,
-// //     };
-// //   },
-// //   render() {
-// //     return (
-// //       <div>
-// //         <input
-// //           type="text"
-// //           placeholder="Search products..."
-// //           onInput={(e: Event) => (this.state.searchQuery = (e.target as HTMLInputElement).value)}
-// //           class="w-full p-2 border rounded-md mb-5"
-// //         />
-// //         <div
-// //           class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-// //         >
-// //           {this?.filteredProducts?.map((product: any) => (
-// //             <ProductCard key={product.id} product={product} />
-// //           ))}
-// //         </div>
-// //       </div>
-// //     );
-// //   },
-// // });
