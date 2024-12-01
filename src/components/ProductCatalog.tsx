@@ -71,37 +71,37 @@ export default defineComponent({
       <div>
         {/* Loading State */}
         {this.isLoading ? (
-          <div class="loader mx-auto my-10"></div>
+          <div className="loader mx-auto my-10"></div>
         ) : (
           <>
             {/* Search Bar */}
             <input
               type="text"
               placeholder="Search products..."
-              onInput={(e: Event) => (this.state.searchQuery = (e.target as HTMLInputElement).value)}
-              class="w-full p-2 border rounded-md mb-5 input"
+              onInput={(e: React.FormEvent<HTMLInputElement>) => (this.state.searchQuery = (e.currentTarget as HTMLInputElement).value)}
+              className="w-full p-2 border rounded-md mb-5 input"
             />
 
             {/* Sort Options */}
             <select
-              onChange={(e: Event) => {
+              onChange={(e:  React.ChangeEvent<HTMLSelectElement>) => {
                 this.state.sortBy = (e.target as HTMLSelectElement).value;
               }}
-              class="mb-4 p-2 border rounded-md sort"
+              className="mb-4 p-2 border rounded-md sort"
             >
               <option value="price">Sort by Price</option>
               <option value="rating">Sort by Rating</option>
             </select>
 
             {/* Product Cards */}
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {this.paginatedProducts.map((product: any) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
 
             {/* Pagination */}
-            <div class="pagination mt-5">
+            <div className="pagination mt-5">
               <button
                 onClick={() => this.changePage(this.state.currentPage - 1)}
                 disabled={this.state.currentPage === 1}

@@ -2,12 +2,72 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "preserve",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
     "strict": true,
-    "types": ["vite/client", "vue", "vuex"]
-  }
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true, 
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "jest.config.mjs",
+    "postcss.config.cjs",
+    "tailwind.config.js",
+    "src/**/*.vue.js"
+
+  ]
 }
+
+
+
+
+// {
+//   "compilerOptions": {
+//     "target": "esnext",
+//     "module": "esnext",
+//     "moduleResolution": "node",
+//     "outDir": "./dist",
+//     "jsx": "preserve",
+//     "allowJs": true,
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "strict": true,
+//     "types": ["vite/client", "vue", "vuex"]
+//   },
+//   "exclude": [
+//     "node_modules",
+//     "babel.config.js",
+//     "jest.config.mjs",
+//     "postcss.config.cjs",
+//     "tailwind.config.js",
+//     "src/**/*.vue.js"
+
+//   ]
+// }
