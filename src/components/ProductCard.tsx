@@ -9,7 +9,7 @@ interface Product {
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   return (
-    <div className="border p-4 rounded-lg">
+    <div className="border p-4 rounded-lg dark:border-gray-500">
       <img src={product.image} alt={product.title}
         className="w-full h-60 object-cover"
       />

@@ -26,6 +26,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -36,6 +37,13 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: rgba(253, 253, 253, 0.918);
+  color: black;
+}
+
+
+body.dark {
+  color: white;
 }
 
 h1 {
@@ -54,9 +62,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -78,12 +88,36 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+#btn {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.input,
+.sort,
+.pagination button {
+  color: white;
+  background-color: gray;
+}
+
+.input.dark {
+  color: white
+}
+
+.sort.dark,
+.pagination.dark {
+  background-color: black;
 }
 
 .loader {
@@ -96,6 +130,11 @@ button:focus-visible {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

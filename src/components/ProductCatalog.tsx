@@ -79,7 +79,7 @@ export default defineComponent({
               type="text"
               placeholder="Search products..."
               onInput={(e: Event) => (this.state.searchQuery = (e.target as HTMLInputElement).value)}
-              class="w-full p-2 border rounded-md mb-5"
+              class="w-full p-2 border rounded-md mb-5 input"
             />
 
             {/* Sort Options */}
@@ -87,7 +87,7 @@ export default defineComponent({
               onChange={(e: Event) => {
                 this.state.sortBy = (e.target as HTMLSelectElement).value;
               }}
-              class="mb-4 p-2 border rounded-md"
+              class="mb-4 p-2 border rounded-md sort"
             >
               <option value="price">Sort by Price</option>
               <option value="rating">Sort by Rating</option>
