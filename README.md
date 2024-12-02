@@ -1,7 +1,3 @@
-Here’s a well-structured and visually appealing README file for your project:
-
----
-
 # **E-Commerce Catalog** 🌐
 
 Welcome to the **E-Commerce Catalog** project, an application designed for showcasing products in a modern, efficient, and scalable manner. This project utilizes cutting-edge web development tools and frameworks to deliver a seamless user experience.
@@ -140,7 +136,3 @@ Special thanks to:
 - The **Vue** and **React** communities for their outstanding frameworks.
 - The **Vite** team for blazing-fast builds.
 - Everyone who contributed to the development of this project!
-
---- 
-
-Feel free to modify and add any additional information specific to your project. 😊
